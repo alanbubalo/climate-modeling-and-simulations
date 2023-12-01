@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+    django:
+        container_name: django
+        build:
+            context: ./climate_mod_sim
+        command: python manage.py runserver 0.0.0.0:8000
+        volumes:
+            - ./climate_mod_sim:/usr/src/app/
+        ports:
+            - 8001:8000
+        environment:
+            - DEBUG=1
+            - SECRET_KEY=784ewbvhjaju03r8few3h8fqr081iq
+            - ALLOWED_HOSTS=localhost,127.0.0.1
