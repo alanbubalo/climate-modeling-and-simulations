@@ -1,6 +1,9 @@
 version: "3.8"
 
 services:
+    redis:
+        image: redis:7.0.11-alpine
+
     django:
         container_name: django
         build:
@@ -14,3 +17,18 @@ services:
             - DEBUG=1
             - SECRET_KEY=784ewbvhjaju03r8few3h8fqr081iq
             - ALLOWED_HOSTS=localhost,127.0.0.1
+        depends_on:
+            - redis
+
+    celery:
+        container_name: celery
+        build:
+            context: ./climate_mod_sim
+        volumes:
+            - ./climate_mod_sim:/usr/src/app/
+        environment:
+            - DEBUG=1
+            - SECRET_KEY=784ewbvhjaju03r8few3h8fqr081iq
+            - ALLOWED_HOSTS=localhost,127.0.0.1
+        depends_on:
+            - redis
